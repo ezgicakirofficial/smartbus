@@ -16,6 +16,7 @@ import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import RestoreIcon from "@material-ui/icons/Restore";
 import ExitToApp from "@material-ui/icons/ExitToApp";
+import Map from "@material-ui/icons/AddLocation";
 
 
 const actionsStyles = theme => ({
@@ -72,6 +73,7 @@ class CompanyBusListComponent extends Component {
     this.handleRowClicked = this.handleRowClicked.bind(this);
     this.getBusList = this.getBusList.bind(this);
     this.clickExit = this.clickExit.bind(this);
+    this.clickMap = this.clickMap.bind(this);
     this.clickBusses = this.clickBusses.bind(this);
 
     this.getBusList();
@@ -93,12 +95,18 @@ class CompanyBusListComponent extends Component {
   };
 
   handleRowClicked =(row) =>{
-    console.log(row)
     this.props.history.push("/busview", {
       plate_no: row[0],
       username: this.state.username
     });
   };
+  clickMap = ()=>{
+   
+    this.props.history.push("/busmap", {
+      marker: this.state.rows,
+      username: this.state.username
+    });
+  }
 
   // TO DO bunun get req doğru değil    
   getBusList() {
@@ -149,6 +157,7 @@ class CompanyBusListComponent extends Component {
         className={classes.root}
       >
         <BottomNavigationAction onClick={this.clickBusses} label="List of Buses" icon={<RestoreIcon />} />
+        <BottomNavigationAction onClick={this.clickMap} label="Map" icon={< Map/>} />
         <BottomNavigationAction onClick={this.clickExit} label="Exit" icon={< ExitToApp/>} />
       </BottomNavigation>
       

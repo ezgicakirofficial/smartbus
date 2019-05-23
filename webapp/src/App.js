@@ -9,6 +9,8 @@ import CompanyBusListComponent from "./components/companybuslist";
 import BusViewComponent from "./components/busviewlist";
 import RegisterComponent from "./components/register";
 import MapComponent from "./components/map"
+import BusMapComponent from "./components/busmap"
+//import MapComponent from "./components/denememap"
 import { browserHistory } from "react-router";
 
 function App() {
@@ -22,6 +24,7 @@ function App() {
         <Route path="/adminview" component={AdminView} />
         <Route path="/register" history={browserHistory} component={RegisterComponent} />
         <Route path = "/map" history={browserHistory} component={MapComponent} />
+        <Route path = "/busmap" history={browserHistory} component={BusMapComponent} />
       </Switch>
     </BrowserRouter>
   );

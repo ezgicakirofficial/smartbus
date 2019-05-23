@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-let google = window.google;
 const fetch = require("isomorphic-fetch");
 const { compose, withProps, withHandlers } = require("recompose");
 const {
@@ -15,7 +14,7 @@ const MapWithAMarkerClusterer = compose(
   withProps({
     googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyANO5B3CQp9ZpPtZjnZN-B-nKbttZFHmgE&v=3.exp&libraries=geometry,drawing,places",
     loadingElement: <div style={{ height: `100%` }} />,
-    containerElement: <div style={{ height: `800px` }} />,
+    containerElement: <div style={{ height: `400px` }} />,
     mapElement: <div style={{ height: `100%` }} />,
   }),
   withHandlers({
@@ -40,9 +39,8 @@ const MapWithAMarkerClusterer = compose(
     >
       {props.markers.map(marker => (
         <Marker
-          position={{ lat: marker[0], lng: marker[1] }}
-          label = {marker[3]}
-          icon= { {url: marker[2]} }
+          key={marker.photo_id}
+          position={{ lat: marker.latitude, lng: marker.longitude }}
         />
       ))}
     </MarkerClusterer>
@@ -65,17 +63,8 @@ class DemoApp extends React.PureComponent {
     fetch(url)
       .then(res => res.json())
       .then(data => {
-        
-        var markerslist = this.props.location.state.marker;
-        for (var i =0; i < markerslist.length; i++){
-            if(markerslist[i][2] == 0){
-                markerslist[i][2] = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png";
-            }
-            else if (markerslist[i][2] == 1){
-                markerslist[i][2] = "http://maps.google.com/mapfiles/ms/icons/green-dot.png";
-            }
-          }
-        this.setState({ markers: markerslist });
+        this.setState({ markers: data.photos });
+        console.log(this.state.markers)
       });
   }
 
@@ -85,5 +74,5 @@ class DemoApp extends React.PureComponent {
     )
   }
 }
+
 export default (DemoApp);
-//<DemoApp />

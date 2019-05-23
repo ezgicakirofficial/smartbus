@@ -40,16 +40,15 @@ const MapWithAMarkerClusterer = compose(
     >
       {props.markers.map(marker => (
         <Marker
-          position={{ lat: marker[0], lng: marker[1] }}
-          label = {marker[3]}
-          icon= { {url: marker[2]} }
+          position={{ lat: marker[1], lng: marker[2] }}
+          label = {marker[0]}
         />
       ))}
     </MarkerClusterer>
   </GoogleMap>
 );
 
-class DemoApp extends React.PureComponent {
+class BusMap extends React.PureComponent {
   componentWillMount() {
     this.setState({ markers: [] })
   }
@@ -65,17 +64,7 @@ class DemoApp extends React.PureComponent {
     fetch(url)
       .then(res => res.json())
       .then(data => {
-        
-        var markerslist = this.props.location.state.marker;
-        for (var i =0; i < markerslist.length; i++){
-            if(markerslist[i][2] == 0){
-                markerslist[i][2] = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png";
-            }
-            else if (markerslist[i][2] == 1){
-                markerslist[i][2] = "http://maps.google.com/mapfiles/ms/icons/green-dot.png";
-            }
-          }
-        this.setState({ markers: markerslist });
+        this.setState({ markers: this.props.location.state.marker });
       });
   }
 
@@ -85,5 +74,5 @@ class DemoApp extends React.PureComponent {
     )
   }
 }
-export default (DemoApp);
+export default (BusMap);
 //<DemoApp />

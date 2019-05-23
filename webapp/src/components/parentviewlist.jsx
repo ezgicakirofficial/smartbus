@@ -52,7 +52,16 @@ const styles = theme => ({
   },
   pagination:{
     float:'right'
+  },
+  focusableRow:{
+    alignItems: 'center',
+    boxSizing: 'border-box',
+    cursor: 'pointer',
+    '&:hover': {
+        backgroundColor: theme.palette.grey[200],
+      },
   }
+
 });
 
 class ParentViewComponent extends Component {
@@ -62,16 +71,20 @@ class ParentViewComponent extends Component {
     this.handleChangePage = this.handleChangePage.bind(this);
     this.handleChangeRowsPerPage = this.handleChangeRowsPerPage.bind(this);
     this.getListActivities = this.getListActivities.bind(this);
+    this.handleRowClicked = this.handleRowClicked.bind(this);
     this.getListActivities();
-
   }
   state = {
     username: this.props.location.state.username,
+    lat: "",
+    lng : "",
+    markers:[],
     rows: [],
     page: 0,
     rowsPerPage: 5,
   };
 
+  
   handleChangePage = (event, page) => {
     this.setState({ page });
   };
@@ -105,11 +118,56 @@ class ParentViewComponent extends Component {
           responseData[i][2]= responseData[i][2].split(".")[0];
         }
         this.setState({rows: responseData.sort((a, b) => (a[2] > b[2] ? -1 : 1))});
+        this.setState({lat: responseData[3]});
+        this.setState({lng: responseData[4]});
+        console.log(responseData)
       }
       else{
         alert( "No Activity Exists")
       }
     
+    return responseData;
+      }).catch(error => {
+        console.warn(error);
+      });
+
+  };
+
+  handleRowClicked(row) {
+    console.log(row)
+    return fetch('http://34.65.33.103:80/bus/get_location', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        plate_number: row[7]
+      })
+    }).then((response) => response.json())
+    .then((responseData) => {
+
+    
+    console.log(loc)
+    if(row[5] == "Got In"){
+      var loc = [responseData[0][0],responseData[0][1],0, "BUS & CHILD"]
+      this.setState({ markers:[loc] });
+      
+    }
+    else{
+      var loc = [responseData[0][0],responseData[0][1],0, "BUS "]
+
+      var marker = [loc, [ row[3], row[4],1, "YOUR CHILD"]];
+      
+      this.setState({ markers:marker });
+    }
+    
+    console.log(this.state.markers);
+    
+    this.props.history.push("/map", {
+      marker: this.state.markers,
+      username: this.state.username
+    });
     return responseData;
       }).catch(error => {
         console.warn(error);
@@ -139,7 +197,7 @@ class ParentViewComponent extends Component {
             <TableBody>
               {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
                 return (
-                  <TableRow key={row[0]}  >
+                  <TableRow className={classes.focusableRow} key={row[0]}  onClick={() =>{this.handleRowClicked(row)}}>
                     <TableCell component="th" scope="row">
                       {row[8]}
                     </TableCell>
