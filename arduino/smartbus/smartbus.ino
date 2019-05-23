@@ -123,7 +123,7 @@ void loop() {
     if( newID) 
       dataJSON = dataJSON + "\"id\" : " + userID + ", ";
       
-    dataJSON = dataJSON + "\"latitue\" : " + lat + ", ";
+    dataJSON = dataJSON + "\"latitude\" : " + lat + ", ";
     dataJSON = dataJSON + "\"longtitude\" : " + lon + ", ";
     //dataJSON = dataJSON + "\"latDeg\" : " + latDeg + ", ";
     //dataJSON = dataJSON + "\"lonDeg\" : " + lonDeg + ", ";
