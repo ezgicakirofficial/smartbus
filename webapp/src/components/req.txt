@@ -1,0 +1,65 @@
+Login
+
+http://34.65.33.103:80/login
+
+
+{
+    "username": "kenan",
+    "password": "123"
+}
+
+This should give you return you a json. The password and username like this exist in db
+
+
+Register
+
+http://34.65.33.103:80/register
+
+
+{
+    "username": "newuser",
+    "password": "password1",
+    "fullname": "New User"
+}
+
+
+This registers a new user. You can try logging in later
+
+
+See Children Activities
+
+http://34.65.33.103:80/see_activities
+
+
+{
+    "username": "kenan"
+}
+
+Returns activities of children of kenan
+
+See companies
+
+http://34.65.33.103:80/companies
+Unlike all others this is just a GET request. No need to post anything. It returns list of companies registered in the system
+
+
+See Company
+
+http://34.65.33.103:80/company
+
+{
+    "company_id": "1"
+}
+
+Returns buses of company with id 1
+
+See bus
+
+http://34.65.33.103:80/bus
+
+
+{
+    "plate_number": "111-001"
+}
+
+Returns all kids registered for that bus + info if they are inside or not
