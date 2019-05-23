@@ -115,18 +115,18 @@ void loop() {
   if( GPS.fix){
     lat = GPS.lat;
     lon = GPS.lon;
-    latDeg = GPS.latitudeDegrees;
-    lonDeg = GPS.longitudeDegrees;
+    //latDeg = GPS.latitudeDegrees;
+    //lonDeg = GPS.longitudeDegrees;
   }
 
   if( sendInfo){
     if( newID) 
       dataJSON = dataJSON + "\"id\" : " + userID + ", ";
       
-    dataJSON = dataJSON + "\"lat\" : " + lat + ", ";
-    dataJSON = dataJSON + "\"lon\" : " + lon + ", ";
-    dataJSON = dataJSON + "\"latDeg\" : " + latDeg + ", ";
-    dataJSON = dataJSON + "\"lonDeg\" : " + lonDeg + ", ";
+    dataJSON = dataJSON + "\"latitue\" : " + lat + ", ";
+    dataJSON = dataJSON + "\"longtitude\" : " + lon + ", ";
+    //dataJSON = dataJSON + "\"latDeg\" : " + latDeg + ", ";
+    //dataJSON = dataJSON + "\"lonDeg\" : " + lonDeg + ", ";
     dataJSON = dataJSON + "}";
     Serial.println( "DataJSON --> " + dataJSON);
     sendInfo = false;
