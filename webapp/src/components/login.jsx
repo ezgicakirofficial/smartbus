@@ -65,6 +65,7 @@ class LoginComponent extends Component {
   handleLoginClick =()=>{
     return fetch('http://34.65.33.103:80/login', {
       method: 'POST',
+      
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -76,6 +77,7 @@ class LoginComponent extends Component {
     }).then((response) => response.json())
     .then((responseData) => {
     if( responseData[0][2] == "parent"){
+      console.log(this.state)
       this.props.history.push("/parentview", {
         username: this.state.username
       });

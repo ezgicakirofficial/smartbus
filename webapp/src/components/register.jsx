@@ -43,9 +43,10 @@ class RegisterComponent extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
     this.handleFullnameChange = this.handleFullnameChange.bind(this);
+    this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handleClickShowPassword = this.handleClickShowPassword.bind(this);
   }
-  state = { username: "", password: "" , fullname :""};
+  state = { username: "", password: "" , fullname :"", email: ""};
   handleChange = prop => event => {
     this.setState({ password: event.target.value });
   };
@@ -59,6 +60,9 @@ class RegisterComponent extends Component {
   };
   handleFullnameChange = e => {
     this.setState({ fullname: e.target.value });
+  };  
+  handleEmailChange = e => {
+    this.setState({ email: e.target.value });
   };
   
   handleLoginClick =()=>{
@@ -71,7 +75,8 @@ class RegisterComponent extends Component {
       body: JSON.stringify({
         username: this.state.username,
         password: this.state.password,
-        fullname: this.state.fullname
+        fullname: this.state.fullname,
+        email: this.state.email
       })
     })
     .then(() => {
@@ -110,6 +115,16 @@ class RegisterComponent extends Component {
             className={classes.textField}
             margin="normal"
             onChange={this.handleFullnameChange}
+          />
+        </div>
+        <div className="row">
+          <TextField
+            id="with-placeholder"
+            label="E-mail Address"
+            placeholder="E-mail Address"
+            className={classes.textField}
+            margin="normal"
+            onChange={this.handleEmailChange}
           />
         </div>
         
