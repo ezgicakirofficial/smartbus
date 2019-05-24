@@ -75,6 +75,7 @@ class DemoApp extends React.PureComponent {
                 markerslist[i][2] = "http://maps.google.com/mapfiles/ms/icons/green-dot.png";
             }
           }
+        console.log(markerslist)
         this.setState({ markers: markerslist });
       });
   }

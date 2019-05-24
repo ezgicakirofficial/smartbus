@@ -12,6 +12,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePaginationActions from './pagenavigation';
 import {withRouter} from 'react-router-dom';
 import compose from 'recompose/compose';
+import Geocode from 'react-geocode';
 
 const actionsStyles = theme => ({
   root: {
@@ -72,12 +73,13 @@ class ParentViewComponent extends Component {
     this.handleChangeRowsPerPage = this.handleChangeRowsPerPage.bind(this);
     this.getListActivities = this.getListActivities.bind(this);
     this.handleRowClicked = this.handleRowClicked.bind(this);
+    Geocode.setApiKey('AIzaSyANO5B3CQp9ZpPtZjnZN-B-nKbttZFHmgE');
+
     this.getListActivities();
+    //Geocode.setLanguage('en');
   }
   state = {
     username: this.props.location.state.username,
-    lat: "",
-    lng : "",
     markers:[],
     rows: [],
     page: 0,
@@ -105,22 +107,39 @@ class ParentViewComponent extends Component {
       })
     }).then((response) => response.json())
     .then((responseData) => {
+      
       if( Object.keys(responseData).length > 0 ){
-    
+
         for (var i =0; i < Object.keys(responseData).length; i++){
+          
           if(responseData[i][5] == 1){
             responseData[i][5] = "Got In"
           }
           else if (responseData[i][5] == 0){
             responseData[i][5] = "Got Out"
-  
+        
           }
           responseData[i][2]= responseData[i][2].split(".")[0];
+
+          let j = i;
+          Geocode.fromLatLng( responseData[j][3], responseData[j][4]).then(
+            response => {
+              const address = response.results[0].formatted_address;
+              responseData[j].push(address)
+              this.setState({rows: responseData});
+              console.log(address)
+              return address;
+
+            },
+            error => {
+              console.error(error);
+            }
+          );
+
         }
-        this.setState({rows: responseData.sort((a, b) => (a[2] > b[2] ? -1 : 1))});
-        this.setState({lat: responseData[3]});
-        this.setState({lng: responseData[4]});
-        console.log(responseData)
+
+       this.setState({rows: this.state.rows.sort((a, b) => (a[2] > b[2] ? -1 : 1))});
+        console.log(this.state.rows);
       }
       else{
         alert( "No Activity Exists")
@@ -201,7 +220,7 @@ class ParentViewComponent extends Component {
                     <TableCell component="th" scope="row">
                       {row[8]}
                     </TableCell>
-                    <TableCell >{row[3]},{row[4]}</TableCell>
+                    <TableCell >{row[10]} </TableCell>
                     <TableCell >{row[5]}</TableCell>
                     <TableCell >{row[2]}</TableCell>
                    

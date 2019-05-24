@@ -17,7 +17,7 @@ import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import RestoreIcon from "@material-ui/icons/Restore";
 import ExitToApp from "@material-ui/icons/ExitToApp";
 import Map from "@material-ui/icons/AddLocation";
-
+import Geocode from 'react-geocode';
 
 const actionsStyles = theme => ({
   root: {
@@ -75,8 +75,10 @@ class CompanyBusListComponent extends Component {
     this.clickExit = this.clickExit.bind(this);
     this.clickMap = this.clickMap.bind(this);
     this.clickBusses = this.clickBusses.bind(this);
+    Geocode.setApiKey('AIzaSyANO5B3CQp9ZpPtZjnZN-B-nKbttZFHmgE');
 
     this.getBusList();
+
   }
   state = {
     value :0,
@@ -122,6 +124,24 @@ class CompanyBusListComponent extends Component {
       .then((response) =>  response.json())
       .then((responseData) => {
       if( Object.keys(responseData).length> 0 ){
+        for (var i =0; i < Object.keys(responseData).length; i++){
+          let j = i;
+          Geocode.fromLatLng( responseData[j][1], responseData[j][2]).then(
+            response => {
+        
+              const address = response.results[0].formatted_address;
+              responseData[j].push(address)
+              this.setState({rows: responseData});
+              //console.log(address)
+              return address;
+
+            },
+            error => {
+              console.error(error);
+            }
+          );
+
+        }
         this.setState({rows: responseData.sort((a, b) => (a[0] < b[0] ? -1 : 1))});
       }
       else{
@@ -178,7 +198,7 @@ class CompanyBusListComponent extends Component {
                 return (
                   <TableRow className={classes.focusableRow} key={row.id} onClick={() =>{this.handleRowClicked(row)}} >
                     <TableCell component="th" scope="row">{row[0]}</TableCell>
-                    <TableCell >{row[1]}, {row[2]}</TableCell>
+                    <TableCell >{row[4]}</TableCell>
                     <TableCell >{row[3]}</TableCell>
                   </TableRow>
                 );
