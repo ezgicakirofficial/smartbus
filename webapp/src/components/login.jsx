@@ -87,7 +87,7 @@ class LoginComponent extends Component {
         username: this.state.username
       });
     }
-    
+    console.log(responseData);
     return responseData;
       }).catch(error => {
         alert("INCORRECT PASSWORD OR USERNAME!");
