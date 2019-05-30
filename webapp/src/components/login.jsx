@@ -13,7 +13,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import {withRouter} from 'react-router-dom';
 import compose from 'recompose/compose';
-import logo from './smartbus.png';
+import logo from './photo.jpeg';
 
 const styles = theme => ({
   button: {
@@ -102,7 +102,7 @@ class LoginComponent extends Component {
    
     return (
       <div className={classes.container} align="center">
-        <img src={logo} width="350" height="250"/>
+        <img src={logo} width="420" height="250"/>
         <div className="row">
           <TextField
             id="with-placeholder"
